@@ -1,0 +1,12 @@
+#TOP 5 brands
+with cte as(
+Select B_id, count(R_id) as count,MONTH(datescanned) as Month
+rank() over(order by count(R_id) desc ) rk
+from Receipt
+group by B_id,MONTH(datescanned)
+Where month(datescanned)= Max(month(datescanned)))
+Select C.B_id, C.count,B.Name
+from cte C
+join Brand B
+on C.B_id = B.B_id
+where C.rk < 5
